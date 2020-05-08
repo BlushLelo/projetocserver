@@ -2,16 +2,15 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Operacao implements Serializable {
-
     private static final long serialVersionUID = -1309972794650681881L;
-    int operation;
+    String operation;
     List<Figura> figuraList;
 
-    public int getOperation() {
+    public String getOperation() {
         return operation;
     }
 
-    public void setOperation(int operation) {
+    public void setOperation(String operation) {
         this.operation = operation;
     }
 

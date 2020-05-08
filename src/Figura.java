@@ -1,7 +1,10 @@
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Figura
+public abstract class Figura implements Serializable
 {
+
+    private static final long serialVersionUID = -1449450329337496159L;
     protected Color cor;
 
     protected Figura ()

@@ -12,14 +12,14 @@ public class OperacoesCommander {
 
     public void executa() {
         switch (operacao.getOperation()) {
-            case 1:
+            case "SAV":
                 operacoes.salvarDesenho(null, null, null, null, null);
                 break;
-            case 2:
+            case "CON":
                 operacoes.consultarDesenho();
                 break;
-            case 3:
-                operacoes.selecionarDesenhoNoServer();
+            case "FIC":
+                operacoes.desconectar();
         }
     }
 }

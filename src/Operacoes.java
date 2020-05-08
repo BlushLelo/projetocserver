@@ -4,6 +4,6 @@ public interface Operacoes {
 
     void consultarDesenho();
 
-    void selecionarDesenhoNoServer();
+    void desconectar();
 
 }
