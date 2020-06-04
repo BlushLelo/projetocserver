@@ -1,6 +1,8 @@
+import java.util.List;
+
 public interface Operacoes {
 
-    void salvarDesenho(String nomeDoDesenho, String ipDoCliente, String dataDeCriacao, String dataDeModificacao, Figura figura);
+    void salvarDesenho(String nome, List<Figura> figuraList, String ipDoCliente);
 
     void consultarDesenho();
 

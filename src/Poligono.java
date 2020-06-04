@@ -38,6 +38,22 @@ public class Poligono extends Figura implements Serializable {
         }
     }
 
+    public ArrayList<Ponto> getPontosDoPol() {
+        return pontosDoPol;
+    }
+
+    public void setPontosDoPol(ArrayList<Ponto> pontosDoPol) {
+        this.pontosDoPol = pontosDoPol;
+    }
+
+    public boolean isPreenchido() {
+        return preenchido;
+    }
+
+    public void setPreenchido(boolean preenchido) {
+        this.preenchido = preenchido;
+    }
+
     public void torneSeVisivel(Graphics g) {
         int i = 0;
         int pontosX[] = new int[pontosDoPol.size()];//vetor de pontos x

@@ -59,6 +59,14 @@ public class Quadrado extends Figura implements Serializable {
         return this.p2;
     }
 
+    public boolean isPreenchido() {
+        return preenchido;
+    }
+
+    public void setPreenchido(boolean preenchido) {
+        this.preenchido = preenchido;
+    }
+
     public void torneSeVisivel(Graphics g) {
         int raio = (int) Math.abs(Math.sqrt(Math.pow(this.p2.getX() - this.p1.getX(), 2) + Math.pow(this.p2.getY() - this.p1.getY(), 2)));
         if (!preenchido) {

@@ -67,6 +67,14 @@ public class Elipse extends Figura implements Serializable
         return this.p2;
     }
 
+    public boolean isPreenchido() {
+        return preenchido;
+    }
+
+    public void setPreenchido(boolean preenchido) {
+        this.preenchido = preenchido;
+    }
+
     public void torneSeVisivel (Graphics g)
     {
     	int raiox, raioy;
