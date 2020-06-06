@@ -13,9 +13,11 @@ public class Database implements DatabaseGateway {
 
     @Override
     public void salvar(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) {
+        System.out.println("Nome: " + nome+"\nListagiruas: " + figuraList.toString() + "\nIp: " + ipDoCliente + "\ndata: "+dataHora);
+
         List<FiguraDatabase> figuraDatabase = figuraList.stream().map(FiguraConverter::converter).collect(Collectors.toList());
 
-        Document doc = new Document("ip", ipDoCliente).append("nome", nome).append("listaDeFiguras", figuraDatabase);
+        Document doc = new Document("ip", ipDoCliente).append("nome", nome).append("data",dataHora).append("listaDeFiguras", figuraDatabase);
         mongoCollection.insertOne(doc);
     }
 
