@@ -13,7 +13,7 @@ public class OperacoesCommander {
     public void executa() {
         switch (operacao.getOperation()) {
             case "SAV":
-                operacoes.salvarDesenho(operacao.getNome(), operacao.getFiguraList(), operacao.getIp());
+                operacoes.salvarDesenho(operacao.getNome(), operacao.getFiguraList(), operacao.getIp(), operacao.getDataHora());
                 break;
             case "CON":
                 operacoes.consultarDesenho();

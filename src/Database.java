@@ -12,7 +12,7 @@ public class Database implements DatabaseGateway {
     }
 
     @Override
-    public void salvar(String nome, List<Figura> figuraList, String ipDoCliente) {
+    public void salvar(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) {
         List<FiguraDatabase> figuraDatabase = figuraList.stream().map(FiguraConverter::converter).collect(Collectors.toList());
 
         Document doc = new Document("ip", ipDoCliente).append("nome", nome).append("listaDeFiguras", figuraDatabase);

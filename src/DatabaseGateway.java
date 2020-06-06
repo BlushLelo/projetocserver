@@ -2,6 +2,6 @@ import java.util.List;
 
 public interface DatabaseGateway {
 
-    void salvar(String nome, List<Figura> figuraList, String ipDoCliente);
+    void salvar(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora);
 
 }

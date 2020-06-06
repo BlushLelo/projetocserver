@@ -9,9 +9,9 @@ public class OperacoesImpl implements Operacoes {
     }
 
     @Override
-    public void salvarDesenho(String nome, List<Figura> figuraList, String ipDoCliente) {
+    public void salvarDesenho(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) {
         System.out.println("Chamada a implementacao de salvar desenho");
-        database.salvar(nome, figuraList, ipDoCliente);
+        database.salvar(nome, figuraList, ipDoCliente, dataHora);
     }
 
     @Override
