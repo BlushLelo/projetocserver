@@ -6,6 +6,17 @@ public class Operacao implements Serializable {
     private static final long serialVersionUID = -2829362307114855733L;
     String ip;
     String nome;
+
+    public String getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(String dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    String dataHora;
+
     String operation;
     List<Figura> figuraList;
 
