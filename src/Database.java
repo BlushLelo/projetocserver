@@ -1,7 +1,6 @@
 import com.mongodb.*;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
+import com.mongodb.MongoClient;
+import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -34,8 +33,7 @@ public class Database implements DatabaseGateway {
         List<FiguraDatabase> figuraDatabase = figuraList.stream().map(FiguraConverter::converter).collect(Collectors.toList());
 
         /*consultar primeiro, se o nome do desenho não existir CRIAR UM NOVO\
-        *se existir atualiza desenho
-        */
+        *se existir atualiza desenho*/
         //query
         BasicDBObject query = new BasicDBObject();
         query.put("nome", nome);
@@ -50,11 +48,11 @@ public class Database implements DatabaseGateway {
             mongoCollection.insertOne(doc);//salva novo desenho
         else {
             //salva desenho com novas figuras
-            //Document newDoc = new Document("ip", doc.get("ip")).append("nome", doc.get("nome")).append("data",doc.get("data")).append("data_mod",getDateTime()).append("listaDeFiguras",figuraDatabase);
-            BasicDBObject newDoc = new BasicDBObject("ip", doc.get("ip")).append("nome", doc.get("nome")).append("data",doc.get("data")).append("data_mod",getDateTime()).append("listaDeFiguras",figuraDatabase);
-            System.out.println("AQUI3");
-            mongoCollection.updateOne(query, newDoc);
-            System.out.println("AQUI4");
+            //BasicDBObject newDoc = new BasicDBObject("ip", doc.get("ip")).append("nome", doc.get("nome")).append("data",doc.get("data")).append("data_mod",getDateTime()).append("listaDeFiguras",figuraDatabase);
+            BasicDBObject newDoc = new BasicDBObject("data_mod",getDateTime()).append("listaDeFiguras", figuraDatabase);
+            BasicDBObject updateObject = new BasicDBObject();
+            updateObject.put("$set", newDoc);
+            mongoCollection.updateOne(query, updateObject);
         }
     }
 
