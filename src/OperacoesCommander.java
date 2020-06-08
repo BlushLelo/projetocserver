@@ -16,7 +16,7 @@ public class OperacoesCommander {
                 operacoes.salvarDesenho(operacao.getNome(), operacao.getFiguraList(), operacao.getIp(), operacao.getDataHora());
                 break;
             case "CON":
-                operacoes.consultarDesenho(operacao.getIp());
+                operacoes.consultarDesenho(operacao.getIp(), operacao.getNome());
                 break;
             case "FIC":
                 operacoes.desconectar();
