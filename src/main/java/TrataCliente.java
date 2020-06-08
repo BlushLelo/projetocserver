@@ -31,10 +31,10 @@ public class TrataCliente implements Runnable {
                 System.out.println(operacao.getOperation());
                 OperacoesCommander operacoesCommander = new OperacoesCommander(operacao, new OperacoesImpl(database));
                 operacoesCommander.executa();
-            }
+        }
 
         } catch (Exception e) {
-            System.out.println("Errou");
+            System.out.println("Errou " + e);
         }
     }
 

@@ -1,5 +1,10 @@
+package bd;
+
+import dev.morphia.annotations.Embedded;
+
 import java.io.Serializable;
 
+@Embedded
 public class LinhaDatabase extends FiguraDatabase implements Serializable {
 
     private static final long serialVersionUID = -6004191062758821870L;
@@ -15,6 +20,16 @@ public class LinhaDatabase extends FiguraDatabase implements Serializable {
         this.tipo = tipo;
     }
 
+    public LinhaDatabase() {
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public void setP1(int x, int y) {
         this.p1 = new PontoDatabase(x, y, this.getCor(), tipo);

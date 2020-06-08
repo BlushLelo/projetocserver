@@ -1,5 +1,10 @@
+package bd;
+
+import dev.morphia.annotations.Embedded;
+
 import java.io.Serializable;
 
+@Embedded
 public class QuadradoDatabase extends FiguraDatabase implements Serializable {
 
     private String tipo;
@@ -16,12 +21,23 @@ public class QuadradoDatabase extends FiguraDatabase implements Serializable {
         this.preenchido = preenchido;
     }
 
+    public QuadradoDatabase() {
+    }
+
     public void setP1(int x, int y) {
         this.p1 = new PontoDatabase(x, y, this.getCor(), tipo);
     }
 
     public void setP2(int x, int y) {
         this.p2 = new PontoDatabase(x, y, this.getCor(), tipo);
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public PontoDatabase getP1() {
@@ -31,5 +47,6 @@ public class QuadradoDatabase extends FiguraDatabase implements Serializable {
     public PontoDatabase getP2() {
         return this.p2;
     }
+
 
 }
