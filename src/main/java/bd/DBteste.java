@@ -53,7 +53,7 @@ public class DBteste {
     }
 
     @PrePersist
-    public void prePersist() {
+    public  void prePersist() {
         creationDate = (creationDate == null) ? new Date() : creationDate;
         lastChange = (lastChange == null) ? creationDate : new Date();
     }
