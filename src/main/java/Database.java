@@ -1,10 +1,11 @@
-import bd.DBteste;
-import bd.FiguraDatabase;
+import bd.*;
 import dev.morphia.Datastore;
 import dev.morphia.query.Query;
 
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,7 +58,38 @@ public class Database implements DatabaseGateway {
         //Consultar IP e retornar desenhos do IP ou indicar que não há
         List<DBteste> teste = datastore.find(DBteste.class).filter(eq("ip", ip)).iterator().toList();
 
-        System.out.println(teste);
+        List<OperacaoResponse> collect = teste.stream().map(item -> {
+
+            List<Figura> figuraList = new ArrayList<>();
+            List<RetanguloDatabase> retanguloDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof RetanguloDatabase).map(object -> (RetanguloDatabase) object).collect(Collectors.toList());
+            List<QuadradoDatabase> quadradoDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof QuadradoDatabase).map(object -> (QuadradoDatabase) object).collect(Collectors.toList());
+            List<PontoDatabase> pontoDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof PontoDatabase).map(object -> (PontoDatabase) object).collect(Collectors.toList());
+            List<PoligonoDatabase> poligonoDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof PoligonoDatabase).map(object -> (PoligonoDatabase) object).collect(Collectors.toList());
+            List<LinhaDatabase> linhaDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof LinhaDatabase).map(object -> (LinhaDatabase) object).collect(Collectors.toList());
+            List<ElipseDatabase> elipseDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof ElipseDatabase).map(object -> (ElipseDatabase) object).collect(Collectors.toList());
+            List<CirculoDatabase> circuloDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof CirculoDatabase).map(object -> (CirculoDatabase) object).collect(Collectors.toList());
+
+            retanguloDatabaseList.stream().map(ret -> new Retangulo(ret.getP1().getX(), ret.getP1().getY(), ret.getP2().getX(), ret.getP2().getY(), new Color(ret.getCor()), ret.isPreenchido())).forEach(figuraList::add);
+            quadradoDatabaseList.stream().map(quad -> new Quadrado(quad.getP1().getX(), quad.getP1().getY(), quad.getP2().getX(), quad.getP2().getY(), new Color(quad.getCor()), quad.isPreenchido())).forEach(figuraList::add);
+            pontoDatabaseList.stream().map(pont -> new Ponto(pont.getX(), pont.getY(), new Color(pont.getCor()))).forEach(figuraList::add);
+
+            poligonoDatabaseList.stream().map(poli -> {
+                ArrayList<Ponto> arrayListPontos = poli.getPontosDoPol().stream().map(ponto -> new Ponto(ponto.getX(), ponto.getY(), new Color(ponto.getCor()))).collect(Collectors.toCollection(ArrayList::new));
+                return new Poligono(arrayListPontos, new Color(poli.getCor()), poli.isPreenchido());
+            }).forEach(figuraList::add);
+
+            linhaDatabaseList.stream().map(linha -> new Linha(linha.getP1().getX(), linha.getP2().getY(), linha.getP2().getX(), linha.getP2().getY(), new Color(linha.getCor()))).forEach(figuraList::add);
+
+            elipseDatabaseList.stream().map(elipse -> new Elipse(elipse.getP1().getX(), elipse.getP1().getY(), elipse.getP2().getX(), elipse.getP2().getY(), new Color(elipse.getCor()), elipse.isPreenchido())).forEach(figuraList::add);
+
+            circuloDatabaseList.stream().map(circulo -> new Circulo(circulo.getP1().getX(), circulo.getP1().getY(), circulo.getP2().getX(), circulo.getP2().getY(), new Color(circulo.getCor()), circulo.isPreenchido())).forEach(figuraList::add);
+            System.out.println(figuraList);
+            return new OperacaoResponse(item.getNome(), figuraList);
+        }).collect(Collectors.toList());
+
+        System.out.println(collect);
+
+
     }
 }
 
