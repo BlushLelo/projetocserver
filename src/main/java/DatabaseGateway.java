@@ -4,5 +4,5 @@ public interface DatabaseGateway {
 
     void salvar(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora);
 
-    void consultar(String ip);
+    List<OperacaoResponse> consultar(String ip);
 }

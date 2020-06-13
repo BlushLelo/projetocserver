@@ -15,9 +15,10 @@ public class OperacoesImpl implements Operacoes {
     }
 
     @Override
-    public void consultarDesenho(String ip) {
+    public List<OperacaoResponse> consultarDesenho(String ip) {
         System.out.println("Chamada a implementacao de consultar desenho");
-        database.consultar(ip);
+        return database.consultar(ip);
+
     }
 
     @Override

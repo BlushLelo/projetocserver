@@ -53,12 +53,12 @@ public class Database implements DatabaseGateway {
     }
 
     @Override
-    public void consultar(String ip) {
+    public List<OperacaoResponse> consultar(String ip) {
         System.out.println("IP a ser consultado no DB: " + ip);
         //Consultar IP e retornar desenhos do IP ou indicar que não há
         List<DBteste> teste = datastore.find(DBteste.class).filter(eq("ip", ip)).iterator().toList();
 
-        List<OperacaoResponse> collect = teste.stream().map(item -> {
+        List<OperacaoResponse> operacaoResponses = teste.stream().map(item -> {
 
             List<Figura> figuraList = new ArrayList<>();
             List<RetanguloDatabase> retanguloDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof RetanguloDatabase).map(object -> (RetanguloDatabase) object).collect(Collectors.toList());
@@ -87,7 +87,7 @@ public class Database implements DatabaseGateway {
             return new OperacaoResponse(item.getNome(), figuraList);
         }).collect(Collectors.toList());
 
-        System.out.println(collect);
+        return operacaoResponses;
 
 
     }

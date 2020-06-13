@@ -29,9 +29,9 @@ public class TrataCliente implements Runnable {
                 Operacao operacao = (Operacao) objectInputStream.readObject();
                 operacao.setIp(ip);
                 System.out.println(operacao.getOperation());
-                OperacoesCommander operacoesCommander = new OperacoesCommander(operacao, new OperacoesImpl(database));
+                OperacoesCommander operacoesCommander = new OperacoesCommander(operacao, new OperacoesImpl(database), new TesteImpl(), client);
                 operacoesCommander.executa();
-        }
+            }
 
         } catch (Exception e) {
             System.out.println("Errou " + e);
