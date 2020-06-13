@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
@@ -26,7 +27,13 @@ public class OperacoesCommander {
                 break;
             case "CON":
                 List<OperacaoResponse> operacaoResponses = operacoes.consultarDesenho(operacao.getIp());
-                operacaoResponses.forEach(response -> teste.enviaDesenho("DES", socket, response));
+                operacaoResponses.forEach(response -> {
+                    try {
+                        teste.enviaDesenho("DES", socket, response);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
                 break;
             case "FIC":
                 operacoes.desconectar();
