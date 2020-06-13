@@ -78,7 +78,7 @@ public class Database implements DatabaseGateway {
                 return new Poligono(arrayListPontos, new Color(poli.getCor()), poli.isPreenchido());
             }).forEach(figuraList::add);
 
-            linhaDatabaseList.stream().map(linha -> new Linha(linha.getP1().getX(), linha.getP2().getY(), linha.getP2().getX(), linha.getP2().getY(), new Color(linha.getCor()))).forEach(figuraList::add);
+            linhaDatabaseList.stream().map(linha -> new Linha(linha.getP1().getX(), linha.getP1().getY(), linha.getP2().getX(), linha.getP2().getY(), new Color(linha.getCor()))).forEach(figuraList::add);
 
             elipseDatabaseList.stream().map(elipse -> new Elipse(elipse.getP1().getX(), elipse.getP1().getY(), elipse.getP2().getX(), elipse.getP2().getY(), new Color(elipse.getCor()), elipse.isPreenchido())).forEach(figuraList::add);
 

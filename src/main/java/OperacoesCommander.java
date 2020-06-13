@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Collections;
 import java.util.List;
 
 public class OperacoesCommander {
@@ -8,19 +9,19 @@ public class OperacoesCommander {
 
     private Operacoes operacoes;
 
-    private Teste teste;
+    private RespondeCliente respondeCliente;
 
     private Socket socket;
 
-    public OperacoesCommander(Operacao operacao, Operacoes operacoes, Teste teste, Socket socket) {
+    public OperacoesCommander(Operacao operacao, Operacoes operacoes, RespondeCliente respondeCliente, Socket socket) {
         this.operacao = operacao;
         this.operacoes = operacoes;
-        this.teste = teste;
+        this.respondeCliente = respondeCliente;
         this.socket = socket;
     }
 
 
-    public void executa() {
+    public void executa() throws IOException {
         switch (operacao.getOperation()) {
             case "SAV":
                 operacoes.salvarDesenho(operacao.getNome(), operacao.getFiguraList(), operacao.getIp(), operacao.getDataHora());
@@ -29,11 +30,15 @@ public class OperacoesCommander {
                 List<OperacaoResponse> operacaoResponses = operacoes.consultarDesenho(operacao.getIp());
                 operacaoResponses.forEach(response -> {
                     try {
-                        teste.enviaDesenho("DES", socket, response);
+                        response.setOperacao("DES");
+                        respondeCliente.enviaDesenho(socket, response);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println(e);;
                     }
                 });
+                OperacaoResponse ficOperation = new OperacaoResponse("Nenhum desenho salvo", Collections.emptyList());
+                ficOperation.setOperacao("FIC");
+                respondeCliente.enviaDesenho(socket, ficOperation);
                 break;
             case "FIC":
                 operacoes.desconectar();
