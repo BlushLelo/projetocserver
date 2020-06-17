@@ -1,6 +1,7 @@
 import bd.*;
 import dev.morphia.Datastore;
 import dev.morphia.query.Query;
+import exception.SaveException;
 
 import java.awt.*;
 import java.text.DateFormat;
@@ -28,7 +29,7 @@ public class Database implements DatabaseGateway {
     }
 
     @Override
-    public void salvar(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) {
+    public OperacaoResponse salvar(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) throws SaveException {
         System.out.println("Nome: " + nome + "\nListagiruas: " + figuraList.toString() + "\nIp: " + ipDoCliente + "\ndata: " + dataHora);
 
         List<FiguraDatabase> figuraDatabase = figuraList.stream().map(FiguraConverter::converter).collect(Collectors.toList());
@@ -41,14 +42,23 @@ public class Database implements DatabaseGateway {
         DBteste doc = new DBteste(ipDoCliente, nome, figuraDatabase);
 
         if (document.isEmpty())
-            datastore.save(doc);//salva novo desenho
+            try {
+                DBteste desenho = datastore.save(doc);//salva novo desenho
+                return new OperacaoResponse("NEW", desenho.getCreationDate(), desenho.getLastChange());
+            } catch (Exception e) {
+                throw new SaveException("Problemas ao salvar", e);
+            }
         else {
             //salva desenho com novas figuras
-            if (!document.get(0).getListaDeFiguras().isEmpty()) {
-                query.update(pullAll("listaDeFiguras", document.get(0).getListaDeFiguras())).execute();
+            try {
+                if (!document.get(0).getListaDeFiguras().isEmpty()) {
+                    query.update(pullAll("listaDeFiguras", document.get(0).getListaDeFiguras())).execute();
+                }
+                query.update(push("listaDeFiguras", figuraDatabase)).execute();
+                return new OperacaoResponse("UPD", null, document.get(document.size() - 1).getLastChange());
+            } catch (Exception e) {
+                return new OperacaoResponse(null, null, null, null, true);
             }
-            query.update(push("listaDeFiguras", figuraDatabase)).execute();
-
         }
     }
 
@@ -85,7 +95,7 @@ public class Database implements DatabaseGateway {
 
             circuloDatabaseList.stream().map(circulo -> new Circulo(circulo.getP1().getX(), circulo.getP1().getY(), circulo.getP2().getX(), circulo.getP2().getY(), new Color(circulo.getCor()), circulo.isPreenchido())).forEach(figuraList::add);
             System.out.println(figuraList);
-            return new OperacaoResponse(item.getNome(), item.getCreationDate(), item.getLastChange(), figuraList);
+            return new OperacaoResponse(item.getNome(), item.getCreationDate(), item.getLastChange(), figuraList, "DES", false, item.getIp());
         }).collect(Collectors.toList());
 
 

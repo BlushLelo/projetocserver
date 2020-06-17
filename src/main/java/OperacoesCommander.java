@@ -1,3 +1,6 @@
+import exception.ConsultarException;
+import exception.SaveException;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Collections;
@@ -25,22 +28,30 @@ public class OperacoesCommander {
     public void executa() throws IOException {
         switch (operacao.getOperation()) {
             case "SAV":
-                operacoes.salvarDesenho(operacao.getNome(), operacao.getFiguraList(), operacao.getIp(), operacao.getDataHora());
+                try {
+                    OperacaoResponse responseSav = operacoes.salvarDesenho(operacao.getNome(), operacao.getFiguraList(), operacao.getIp(), operacao.getDataHora());
+                    respondeCliente.enviaDesenho(socket, responseSav);
+                } catch (SaveException e) {
+                    respondeCliente.enviaDesenho(socket, new OperacaoResponse(null, null, null, null, true));
+                }
+
                 break;
             case "CON":
-                List<OperacaoResponse> operacaoResponses = operacoes.consultarDesenho(operacao.getIp());
-                operacaoResponses.forEach(response -> {
-                    try {
-                        response.setOperacao("DES");
-                        respondeCliente.enviaDesenho(socket, response);
-                    } catch (IOException e) {
-                        System.out.println(e);
-                        ;
-                    }
-                });
-                OperacaoResponse ficOperation = new OperacaoResponse("Nenhum desenho salvo", new Date(), new Date(), Collections.emptyList());
-                ficOperation.setOperacao("FIC");
-                respondeCliente.enviaDesenho(socket, ficOperation);
+                try {
+                    List<OperacaoResponse> responseCon = operacoes.consultarDesenho(operacao.getIp());
+                    responseCon.forEach(responseConI -> {
+                        try {
+                            respondeCliente.enviaDesenho(socket, responseConI);
+                        } catch (IOException e) {
+                            System.out.println("Erro ao enviar desenhos ao cliente: " + e);
+                        }
+                    });
+                    OperacaoResponse ficOperation = new OperacaoResponse("Nenhum desenho salvo", new Date(), new Date(), Collections.emptyList(), false);
+                    ficOperation.setOperacao("FIC");
+                    respondeCliente.enviaDesenho(socket, ficOperation);
+                } catch (ConsultarException e) {
+                    respondeCliente.enviaDesenho(socket, new OperacaoResponse(null, null, null, null, true));
+                }
                 break;
             case "FIC":
                 operacoes.desconectar();

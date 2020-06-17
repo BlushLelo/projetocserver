@@ -1,3 +1,6 @@
+import exception.ConsultarException;
+import exception.SaveException;
+
 import java.util.List;
 
 public class OperacoesImpl implements Operacoes {
@@ -9,13 +12,13 @@ public class OperacoesImpl implements Operacoes {
     }
 
     @Override
-    public void salvarDesenho(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) {
+    public OperacaoResponse salvarDesenho(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) throws SaveException {
         System.out.println("Chamada a implementacao de salvar desenho");
-        database.salvar(nome, figuraList, ipDoCliente, dataHora);
+        return database.salvar(nome, figuraList, ipDoCliente, dataHora);
     }
 
     @Override
-    public List<OperacaoResponse> consultarDesenho(String ip) {
+    public List<OperacaoResponse> consultarDesenho(String ip) throws ConsultarException {
         System.out.println("Chamada a implementacao de consultar desenho");
         return database.consultar(ip);
 
