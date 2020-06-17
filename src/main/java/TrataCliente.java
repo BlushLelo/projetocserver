@@ -1,18 +1,15 @@
 import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class TrataCliente implements Runnable {
 
     private Socket client;
-    private ServerSocket server;
     private DatabaseGateway database;
 
-    public TrataCliente(Socket client, ServerSocket server, DatabaseGateway database) {
+    public TrataCliente(Socket client, DatabaseGateway database) {
         this.client = client;
-        this.server = server;
         this.database = database;
     }
 

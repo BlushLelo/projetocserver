@@ -56,9 +56,9 @@ public class Database implements DatabaseGateway {
     public List<OperacaoResponse> consultar(String ip) {
         System.out.println("IP a ser consultado no DB: " + ip);
         //Consultar IP e retornar desenhos do IP ou indicar que não há
-        List<DBteste> teste = datastore.find(DBteste.class).filter(eq("ip", ip)).iterator().toList();
+        List<DBteste> response = datastore.find(DBteste.class).filter(eq("ip", ip)).iterator().toList();
 
-        List<OperacaoResponse> operacaoResponses = teste.stream().map(item -> {
+        return response.stream().map(item -> {
 
             List<Figura> figuraList = new ArrayList<>();
             List<RetanguloDatabase> retanguloDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof RetanguloDatabase).map(object -> (RetanguloDatabase) object).collect(Collectors.toList());
@@ -68,6 +68,7 @@ public class Database implements DatabaseGateway {
             List<LinhaDatabase> linhaDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof LinhaDatabase).map(object -> (LinhaDatabase) object).collect(Collectors.toList());
             List<ElipseDatabase> elipseDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof ElipseDatabase).map(object -> (ElipseDatabase) object).collect(Collectors.toList());
             List<CirculoDatabase> circuloDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof CirculoDatabase).map(object -> (CirculoDatabase) object).collect(Collectors.toList());
+
 
             retanguloDatabaseList.stream().map(ret -> new Retangulo(ret.getP1().getX(), ret.getP1().getY(), ret.getP2().getX(), ret.getP2().getY(), new Color(ret.getCor()), ret.isPreenchido())).forEach(figuraList::add);
             quadradoDatabaseList.stream().map(quad -> new Quadrado(quad.getP1().getX(), quad.getP1().getY(), quad.getP2().getX(), quad.getP2().getY(), new Color(quad.getCor()), quad.isPreenchido())).forEach(figuraList::add);
@@ -84,10 +85,8 @@ public class Database implements DatabaseGateway {
 
             circuloDatabaseList.stream().map(circulo -> new Circulo(circulo.getP1().getX(), circulo.getP1().getY(), circulo.getP2().getX(), circulo.getP2().getY(), new Color(circulo.getCor()), circulo.isPreenchido())).forEach(figuraList::add);
             System.out.println(figuraList);
-            return new OperacaoResponse(item.getNome(), figuraList);
+            return new OperacaoResponse(item.getNome(), item.getCreationDate(), item.getLastChange(), figuraList);
         }).collect(Collectors.toList());
-
-        return operacaoResponses;
 
 
     }

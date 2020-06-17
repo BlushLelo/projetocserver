@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class OperacoesCommander {
@@ -34,9 +35,10 @@ public class OperacoesCommander {
                         respondeCliente.enviaDesenho(socket, response);
                     } catch (IOException e) {
                         System.out.println(e);
+                        ;
                     }
                 });
-                OperacaoResponse ficOperation = new OperacaoResponse("Nenhum desenho salvo", Collections.emptyList());
+                OperacaoResponse ficOperation = new OperacaoResponse("Nenhum desenho salvo", new Date(), new Date(), Collections.emptyList());
                 ficOperation.setOperacao("FIC");
                 respondeCliente.enviaDesenho(socket, ficOperation);
                 break;

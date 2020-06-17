@@ -25,7 +25,7 @@ public class Main {
         while (true) {
             Socket client = server.accept();
             System.out.println("Conectou");
-            TrataCliente tc = new TrataCliente(client, server, conexao);
+            TrataCliente tc = new TrataCliente(client, conexao);
             new Thread(tc).start();
         }
 

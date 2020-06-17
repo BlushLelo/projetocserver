@@ -52,6 +52,22 @@ public class DBteste {
         this.listaDeFiguras = listaDeFiguras;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getLastChange() {
+        return lastChange;
+    }
+
+    public void setLastChange(Date lastChange) {
+        this.lastChange = lastChange;
+    }
+
     @PrePersist
     public  void prePersist() {
         creationDate = (creationDate == null) ? new Date() : creationDate;
