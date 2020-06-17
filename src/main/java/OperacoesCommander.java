@@ -33,7 +33,7 @@ public class OperacoesCommander {
                         response.setOperacao("DES");
                         respondeCliente.enviaDesenho(socket, response);
                     } catch (IOException e) {
-                        System.out.println(e);;
+                        System.out.println(e);
                     }
                 });
                 OperacaoResponse ficOperation = new OperacaoResponse("Nenhum desenho salvo", Collections.emptyList());
