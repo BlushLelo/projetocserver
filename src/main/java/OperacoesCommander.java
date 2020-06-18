@@ -3,8 +3,6 @@ import exception.SaveException;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 
@@ -66,7 +64,7 @@ public class OperacoesCommander {
                             System.out.println("Erro ao enviar desenhos ao cliente: " + e);
                         }
                     });
-                    OperacaoResponse ficOperation = new OperacaoResponse("Nenhum desenho salvo", new Date(), new Date(), Collections.emptyList(), false);
+                    OperacaoResponse ficOperation = new OperacaoResponse(null, null, null, null, "FIC", false, null);
                     ficOperation.setOperacao("FIC");
                     respondeCliente.enviaDesenho(socket, ficOperation);
                 } catch (ConsultarException e) {
