@@ -3,11 +3,21 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
+
+/**
+ * The type Trata cliente.
+ */
 public class TrataCliente implements Runnable {
 
     private Socket client;
     private DatabaseGateway database;
 
+    /**
+     * Instantiates a new Trata cliente.
+     *
+     * @param client   the client
+     * @param database the database
+     */
     public TrataCliente(Socket client, DatabaseGateway database) {
         this.client = client;
         this.database = database;

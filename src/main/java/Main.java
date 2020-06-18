@@ -1,25 +1,26 @@
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
+
+/**
+ * The type Main.
+ */
 public class Main {
 
-    public static void printMenu() {
-        System.out.println("+-------+------------------------------------------+");
-        System.out.println("| CON   |   Fazer consulta de desenho armazenados. |");
-        System.out.println("| SAV   |   Salvar desenho.                        |");
-        System.out.println("| FIC   |   Sair do programa.                      |");
-        System.out.println("+-------+------------------------------------------+");
-    }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    /**
+     * The entry point of application.
+     * <p>
+     * Na main, iniciamos a conexao com o banco de dados e apos isso, criamos uma thread para cada client conectado no servidor
+     *
+     * @param args the input arguments
+     * @throws IOException the io exception
+     */
+    public static void main(String[] args) throws IOException {
 
         ServerSocket server = new ServerSocket(2134);
         Database conexao = new ConexaoDB().getDatabase();
-        List<ObjectInputStream> clientes = new ArrayList<>();
 
 
         while (true) {

@@ -3,9 +3,20 @@ import bd.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * The type Figura converter.
+ */
 public class FiguraConverter {
 
 
+    /**
+     * Converter figura database.
+     * Realizamos a conversao dos objetos que recebemos do client para nossas entidades que serao salvas no banco de dados.
+     *
+     * @param figura the figura
+     * @return the figura database
+     */
     public static FiguraDatabase converter(Figura figura) {
         if (figura instanceof Retangulo) {
             Ponto p1 = ((Retangulo) figura).getP1();

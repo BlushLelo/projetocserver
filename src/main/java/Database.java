@@ -1,42 +1,45 @@
 import bd.*;
 import dev.morphia.Datastore;
 import dev.morphia.query.Query;
+import dev.morphia.query.experimental.filters.Filters;
+import dev.morphia.query.experimental.updates.UpdateOperators;
 import exception.SaveException;
 
 import java.awt.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static dev.morphia.query.experimental.filters.Filters.eq;
-import static dev.morphia.query.experimental.updates.UpdateOperators.pullAll;
-import static dev.morphia.query.experimental.updates.UpdateOperators.push;
 
+/**
+ * The type Database.
+ * Implementacao de consulta e save da base de dados.
+ */
 public class Database implements DatabaseGateway {
-    Datastore datastore;
+    /**
+     * The Datastore.
+     */
+    private Datastore datastore;
 
+    /**
+     * Instantiates a new Database.
+     *
+     * @param datastore the datastore
+     */
     public Database(Datastore datastore) {
         this.datastore = datastore;
     }
 
-    private String getDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
 
     @Override
-    public OperacaoResponse salvar(String nome, List<Figura> figuraList, String ipDoCliente, String dataHora) throws SaveException {
-        System.out.println("Nome: " + nome + "\nListagiruas: " + figuraList.toString() + "\nIp: " + ipDoCliente + "\ndata: " + dataHora);
+    public OperacaoResponse salvar(String nome, List<Figura> figuraList, String ipDoCliente) throws SaveException {
+        System.out.println("Nome: " + nome + "\nListagiruas: " + figuraList.toString() + "\nIp: " + ipDoCliente);
 
         List<FiguraDatabase> figuraDatabase = figuraList.stream().map(FiguraConverter::converter).collect(Collectors.toList());
 
         /*consultar primeiro, se o nome do desenho não existir CRIAR UM NOVO\ */
         Query<DBteste> query = datastore.find(DBteste.class);
-        query.filter(eq("ip", ipDoCliente), eq("nome", nome));
+        query.filter(Filters.eq("ip", ipDoCliente), Filters.eq("nome", nome));
         List<DBteste> document = query.iterator().toList();
 
         DBteste doc = new DBteste(ipDoCliente, nome, figuraDatabase);
@@ -52,9 +55,9 @@ public class Database implements DatabaseGateway {
             //salva desenho com novas figuras
             try {
                 if (!document.get(0).getListaDeFiguras().isEmpty()) {
-                    query.update(pullAll("listaDeFiguras", document.get(0).getListaDeFiguras())).execute();
+                    query.update(UpdateOperators.pullAll("listaDeFiguras", document.get(0).getListaDeFiguras())).execute();
                 }
-                query.update(push("listaDeFiguras", figuraDatabase)).execute();
+                query.update(UpdateOperators.push("listaDeFiguras", figuraDatabase)).execute();
                 return new OperacaoResponse("UPD", null, document.get(document.size() - 1).getLastChange());
             } catch (Exception e) {
                 return new OperacaoResponse(null, null, null, null, true);
@@ -66,7 +69,7 @@ public class Database implements DatabaseGateway {
     public List<OperacaoResponse> consultar(String ip) {
         System.out.println("IP a ser consultado no DB: " + ip);
         //Consultar IP e retornar desenhos do IP ou indicar que não há
-        List<DBteste> response = datastore.find(DBteste.class).filter(eq("ip", ip)).iterator().toList();
+        List<DBteste> response = datastore.find(DBteste.class).filter(Filters.eq("ip", ip)).iterator().toList();
 
         return response.stream().map(item -> {
 
