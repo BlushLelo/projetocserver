@@ -1,5 +1,6 @@
 import bd.*;
 
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +56,13 @@ public class FiguraConverter {
             int rgb = figura.getCor().getRGB();
             boolean preenchido = ((Circulo) figura).isPreenchido();
             return new CirculoDatabase("Circulo", p1.getX(), p1.getY(), p2.getX(), p2.getY(), rgb, preenchido);
+        } else if (figura instanceof Texto) {
+            int x = ((Texto) figura).getX();
+            int y = ((Texto) figura).getY();
+            String textoDigitado = ((Texto) figura).getTextoDigitado();
+            Font fontStyle = ((Texto) figura).getFontStyle();
+            int rgb = ((Texto) figura).getCor().getRGB();
+            return new TextoDatabase(x, y, textoDigitado, fontStyle.getFamily(), fontStyle.getSize(), fontStyle.getStyle(), rgb);
         }
         return null;
     }

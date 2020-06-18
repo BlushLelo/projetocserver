@@ -81,7 +81,7 @@ public class Database implements DatabaseGateway {
             List<LinhaDatabase> linhaDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof LinhaDatabase).map(object -> (LinhaDatabase) object).collect(Collectors.toList());
             List<ElipseDatabase> elipseDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof ElipseDatabase).map(object -> (ElipseDatabase) object).collect(Collectors.toList());
             List<CirculoDatabase> circuloDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof CirculoDatabase).map(object -> (CirculoDatabase) object).collect(Collectors.toList());
-
+            List<TextoDatabase> textoDatabaseList = item.getListaDeFiguras().stream().filter(object -> object instanceof TextoDatabase).map(object -> (TextoDatabase) object).collect(Collectors.toList());
 
             retanguloDatabaseList.stream().map(ret -> new Retangulo(ret.getP1().getX(), ret.getP1().getY(), ret.getP2().getX(), ret.getP2().getY(), new Color(ret.getCor()), ret.isPreenchido())).forEach(figuraList::add);
             quadradoDatabaseList.stream().map(quad -> new Quadrado(quad.getP1().getX(), quad.getP1().getY(), quad.getP2().getX(), quad.getP2().getY(), new Color(quad.getCor()), quad.isPreenchido())).forEach(figuraList::add);
@@ -97,6 +97,9 @@ public class Database implements DatabaseGateway {
             elipseDatabaseList.stream().map(elipse -> new Elipse(elipse.getP1().getX(), elipse.getP1().getY(), elipse.getP2().getX(), elipse.getP2().getY(), new Color(elipse.getCor()), elipse.isPreenchido())).forEach(figuraList::add);
 
             circuloDatabaseList.stream().map(circulo -> new Circulo(circulo.getP1().getX(), circulo.getP1().getY(), circulo.getP2().getX(), circulo.getP2().getY(), new Color(circulo.getCor()), circulo.isPreenchido())).forEach(figuraList::add);
+
+            textoDatabaseList.stream().map(texto -> new Texto(texto.getX(), texto.getY(), texto.getTextoDigitado(), new Font(texto.getFontName(), texto.getFontStyle(), texto.getFontSize()), new Color(texto.getCor()))).forEach(figuraList::add);
+
             System.out.println(figuraList);
             return new OperacaoResponse(item.getNome(), item.getCreationDate(), item.getLastChange(), figuraList, "DES", false, item.getIp());
         }).collect(Collectors.toList());

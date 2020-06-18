@@ -59,6 +59,22 @@ public class Texto extends Figura implements Serializable {
         return this.y;
     }
 
+    public String getTextoDigitado() {
+        return textoDigitado;
+    }
+
+    public void setTextoDigitado(String textoDigitado) {
+        this.textoDigitado = textoDigitado;
+    }
+
+    public Font getFontStyle() {
+        return fontStyle;
+    }
+
+    public void setFontStyle(Font fontStyle) {
+        this.fontStyle = fontStyle;
+    }
+
     public void torneSeVisivel(Graphics g) {
         g.setFont(this.fontStyle);
         g.setColor(this.cor);
